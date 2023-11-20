@@ -35,7 +35,14 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
-
+db_seches = models.Seches(id=1,
+                          sech_name_view="test_main",
+                          path_dir_smzu="path_test",
+                          factors="Line123")
+db_dependency.add(db_seches)
+db_dependency.commit
+db_dependency.refresh(db_seches)
+    
 @app.post("/sech/")
 async def add_sech(seches: SechesBase, db:db_dependency):
     db_seches = models.Seches(id=seches.id,
