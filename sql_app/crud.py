@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from . import models, schemas
 
-def get_sech(db: Session, sech_id: int):
+def get_sech_by_id(db: Session, sech_id: int):
     return db.query(models.Seches).filter(models.Seches.id == sech_id).first()
 
 def get_sech_by_name(db: Session, sech_name_view: str):
@@ -11,11 +11,11 @@ def get_sech_by_name(db: Session, sech_name_view: str):
 def get_seches(db: Session):
     return db.query(models.Seches).all()
 
-def add_sech(db: Session, seches: schemas.SechesBase):
-    db_sech = models.Seches(id=seches.id,
-                            sech_name_view=seches.sech_name_view,
-                            path_dir_smzu=seches.path_dir_smzu,
-                            factors=seches.factors)
+def add_sech(db: Session, sech: schemas.SechesBase):
+    db_sech = models.Seches(id=sech.id,
+                            sech_name_view=sech.sech_name_view,
+                            path_dir_smzu=sech.path_dir_smzu,
+                            factors=sech.factors)
     db.add(db_sech)
     db.commit()
     db.refresh(db_sech)
