@@ -3,9 +3,10 @@ from pydantic import BaseModel
 
 class SechesBase(BaseModel):
     id: int
-    sech_name_view: str
-    path_dir_smzu: str
+    sech_name: str
     factors: str
+    count_topology:int
+    
     class Config:
         orm_mode = True
 

@@ -6,9 +6,9 @@ class Seches(Base):
     __tablename__='seches'
     
     id = Column(Integer, primary_key=True, index=True)
-    sech_name_view = Column(String)
-    path_dir_smzu = Column(String)
+    sech_name = Column(String, unique=True)
     factors = Column(String)
+    count_topology = Column(Integer, default=0)
 
     topologies = relationship("Topology", back_populates="seches")
     

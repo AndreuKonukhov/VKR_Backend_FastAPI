@@ -1,8 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-
 from . import crud, models, schemas
 from .database import SessionLocal, engine
+from .rastr_app.smzu_server_info import get_dict_sech
 
 # Создаем БД
 models.Base.metadata.create_all(bind=engine)
@@ -15,6 +15,9 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# db = Depends(get_db)
+# print(db.query(models.Seches).all())
 
 
 @app.get("/seches/{sech_id}", response_model=schemas.SechesBase)
@@ -37,3 +40,12 @@ def add_sech(sech: schemas.SechesBase, db: Session = Depends(get_db)):
     if db_sech:
         raise HTTPException(status_code=400, detail="Сечение уже существует")
     return crud.add_sech(db=db, sech=sech)
+
+# Получение сечений
+@app.get("/sech_list/")
+def read_list_seches():
+    return get_dict_sech()
+
+@app.post("/factors/")
+def download_factors(file: bytes):
+    print("Файл дошел")
